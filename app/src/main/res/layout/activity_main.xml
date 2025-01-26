@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbarThumbVertical="@null">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        style="@style/background_white_f6_black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16"
+            android:background="@drawable/rectangle_corner_24"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/ic_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_settings"
+            style="@style/tint_white_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_16"
+            android:contentDescription="@string/settings"
+            app:layout_constraintBottom_toBottomOf="@id/search_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/search_view"
+            app:srcCompat="@drawable/ic_cog" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/view_header_shimmer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_24"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_space"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_view"
+            app:shimmer_duration="1500"
+            app:shimmer_fixed_height="@dimen/dimen_600"
+            app:shimmer_fixed_width="@dimen/dimen_600"
+            app:shimmer_intensity="0.7"
+            app:shimmer_repeat_mode="reverse">
+
+            <View
+                android:id="@+id/view_header"
+                style="@style/background_tint_white_grey_40"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_corner_24" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ImageView
+            android:id="@+id/ic_location"
+            style="@style/tint_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_12"
+            android:contentDescription="@string/city"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/view_header_shimmer"
+            app:layout_constraintTop_toTopOf="@id/view_header_shimmer"
+            app:srcCompat="@drawable/ic_pin"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txt_city"
+            style="@style/text_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_8"
+            android:fontFamily="@font/roboto"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/txt_16"
+            app:layout_constraintBottom_toBottomOf="@id/ic_location"
+            app:layout_constraintStart_toEndOf="@id/ic_location"
+            app:layout_constraintTop_toTopOf="@id/ic_location"
+            tools:text="Cairo" />
+
+        <TextView
+            android:id="@+id/txt_temp"
+            style="@style/text_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16"
+            android:fontFamily="@font/roboto_bold"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/txt_24"
+            app:layout_constraintStart_toStartOf="@id/view_header_shimmer"
+            app:layout_constraintTop_toBottomOf="@id/ic_location"
+            tools:text="20°" />
+
+        <TextView
+            android:id="@+id/txt_condition"
+            style="@style/text_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:fontFamily="@font/roboto_medium"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/txt_16"
+            app:layout_constraintStart_toStartOf="@id/txt_temp"
+            app:layout_constraintTop_toBottomOf="@id/txt_temp"
+            tools:text="Rain" />
+
+        <Space
+            android:id="@+id/bottom_space"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_16"
+            app:layout_constraintEnd_toEndOf="@id/view_header_shimmer"
+            app:layout_constraintStart_toStartOf="@id/view_header_shimmer"
+            app:layout_constraintTop_toBottomOf="@id/txt_condition" />
+
+        <ImageView
+            android:id="@+id/ic_condition"
+            android:layout_width="@dimen/dimen_64"
+            android:layout_height="@dimen/dimen_64"
+            android:layout_margin="@dimen/dimen_16"
+            app:layout_constraintBottom_toBottomOf="@id/txt_temp"
+            app:layout_constraintEnd_toEndOf="@id/view_header_shimmer"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@id/txt_temp"
+            app:layout_constraintTop_toTopOf="@id/ic_location" />
+
+        <ImageView
+            android:id="@+id/ic_calendar"
+            style="@style/tint_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:contentDescription="@string/forecast"
+            app:layout_constraintStart_toStartOf="@id/view_header_shimmer"
+            app:layout_constraintTop_toBottomOf="@id/view_header_shimmer"
+            app:srcCompat="@drawable/ic_calendar_days" />
+
+        <TextView
+            android:id="@+id/txt_forecast"
+            style="@style/text_black_21_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_8"
+            android:fontFamily="@font/roboto_medium"
+            android:includeFontPadding="false"
+            android:text="@string/days_forecast"
+            android:textSize="@dimen/txt_16"
+            app:layout_constraintBottom_toBottomOf="@id/ic_calendar"
+            app:layout_constraintStart_toEndOf="@id/ic_calendar"
+            app:layout_constraintTop_toTopOf="@id/ic_calendar" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/forecast_shimmer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_calendar"
+            app:shimmer_duration="1500"
+            app:shimmer_fixed_height="@dimen/dimen_600"
+            app:shimmer_fixed_width="@dimen/dimen_600"
+            app:shimmer_intensity="0.7"
+            app:shimmer_repeat_mode="reverse">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_forecast"
+                style="@style/background_tint_white_grey_40"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_corner_24"
+                android:minHeight="@dimen/dimen_200"
+                android:padding="@dimen/dimen_8" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
