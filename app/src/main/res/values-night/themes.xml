@@ -24,4 +24,9 @@
     <style name="tint_black_21_white">
         <item name="tint">@color/white</item>
     </style>
+
+    <style name="button_style_1">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black_21</item>
+    </style>
 </resources>

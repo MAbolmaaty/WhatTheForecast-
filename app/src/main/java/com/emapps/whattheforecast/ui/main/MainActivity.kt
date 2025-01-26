@@ -14,9 +14,11 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.emapps.whattheforecast.R
+import com.emapps.whattheforecast.data.database.dao.ForecastDao
 import com.emapps.whattheforecast.data.model.ForecastDay
 import com.emapps.whattheforecast.databinding.ActivityMainBinding
 import com.emapps.whattheforecast.ui.main.adapters.ForecastAdapter
@@ -27,6 +29,8 @@ import com.emapps.whattheforecast.utility.Constants.NIGHT_MODE
 import com.emapps.whattheforecast.utility.Constants.UI_MODE
 import com.emapps.whattheforecast.viewmodel.ForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -34,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
     private val forecastViewModel: ForecastViewModel by viewModels()
+    @Inject
+    lateinit var forecastDao: ForecastDao
+    private lateinit var searchEditText: EditText
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -42,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setPreferences()
+        setUiMode()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -50,8 +59,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        setPreferences()
-        setUiMode()
         setSearchView()
         setForecastList()
         observeCityForecast()
@@ -84,13 +91,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSearchView() {
-        forecastViewModel.fetchCityForecast(
+        forecastViewModel.fetchCachedForecast(
             "16589d494121424eac6170157252501",
             "Cairo", 7
         )
-        val searchEditText = binding.searchView
+        searchEditText = binding.searchView
             .findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-        searchEditText.setText(getString(R.string.default_city))
         binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
@@ -130,6 +136,8 @@ class MainActivity : AppCompatActivity() {
         binding.icLocation.visibility = View.VISIBLE
         binding.txtCity.visibility = View.VISIBLE
         binding.txtTemp.visibility = View.VISIBLE
+        binding.viewHeaderShimmer.hideShimmer()
+        binding.forecastShimmer.hideShimmer()
     }
 
     private fun setForecastList() {
@@ -139,14 +147,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeCityForecast() {
         forecastViewModel.observeCityForecast(this) { response ->
-            if (response.data != null) {
+            if (response != null) {
                 displayForecast()
-                binding.txtCity.text = response.data.location.name
+                binding.txtCity.text = response.location.name
                 binding.txtTemp.text =
-                    getString(R.string.temp_celsius_degree).format(response.data.current.tempInCelsius.toInt())
-                binding.txtCondition.text = response.data.current.condition.text
-                Glide.with(this).load("https:/${response.data.current.condition.icon}").into(binding.icCondition)
-                (binding.rvForecast.adapter as? ForecastAdapter)?.changeForecast(response.data.forecast.forecastDay)
+                    getString(R.string.temp_celsius_degree).format(response.current.tempInCelsius.toInt())
+                binding.txtCondition.text = response.current.condition.text
+                Glide.with(this).load("https:/${response.current.condition.icon}").into(binding.icCondition)
+                (binding.rvForecast.adapter as? ForecastAdapter)?.changeForecast(response.forecast.forecastDay)
+                searchEditText.setText(response.location.name)
             } else {
                 hideForecast()
             }

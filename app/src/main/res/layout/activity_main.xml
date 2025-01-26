@@ -52,6 +52,7 @@
             app:shimmer_fixed_height="@dimen/dimen_600"
             app:shimmer_fixed_width="@dimen/dimen_600"
             app:shimmer_intensity="0.7"
+            app:shimmer_auto_start="false"
             app:shimmer_repeat_mode="reverse">
 
             <View
@@ -174,6 +175,7 @@
             app:shimmer_fixed_height="@dimen/dimen_600"
             app:shimmer_fixed_width="@dimen/dimen_600"
             app:shimmer_intensity="0.7"
+            app:shimmer_auto_start="false"
             app:shimmer_repeat_mode="reverse">
 
             <androidx.recyclerview.widget.RecyclerView

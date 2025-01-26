@@ -50,14 +50,20 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation (libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.androidx.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation (libs.hilt.android) //Hilt
-    ksp (libs.hilt.android.compiler) //Hilt
+    ksp (libs.hilt.android.compiler)
     implementation (libs.converter.moshi) //Moshi
     implementation (libs.retrofit) //Retrofit
-    implementation (libs.logging.interceptor) //Retrofit
+    implementation (libs.logging.interceptor)
     implementation (libs.shimmer) //Shimmer
     implementation (libs.glide) //Glide
-    annotationProcessor (libs.compiler) //Glide
+    annotationProcessor (libs.compiler)
+    implementation(libs.androidx.room.runtime) //Room
+    implementation (libs.androidx.room.ktx)
+    ksp (libs.androidx.room.compiler)
+    implementation (libs.gson) //GSON
 }

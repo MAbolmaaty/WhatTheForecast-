@@ -44,19 +44,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.darkMode.setOnClickListener {
-            val uiMode = sharedPreferences.getInt(UI_MODE, 0)
-            when (uiMode) {
-                DAY_MODE -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    sharedPreferences.edit().putInt(UI_MODE, NIGHT_MODE).apply()
-                }
-                NIGHT_MODE -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    sharedPreferences.edit().putInt(UI_MODE, DAY_MODE).apply()
-                }
-            }
-        }
+        setToggleBtn()
     }
 
     companion object {
@@ -69,5 +57,29 @@ class SettingsFragment : Fragment() {
             APP_PREFERENCES,
             AppCompatActivity.MODE_PRIVATE
         )
+    }
+
+    private fun setToggleBtn() {
+        if (sharedPreferences.getInt(UI_MODE, 0) == 1) {
+            binding.btnMode.isChecked = true
+            binding.darkMode.text = getString(R.string.dark_mode)
+        } else {
+            binding.btnMode.isChecked = false
+            binding.darkMode.text = getString(R.string.day_mode)
+        }
+        binding.btnMode.setOnCheckedChangeListener { compoundButton, isChecked ->
+            when (isChecked) {
+                true -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    sharedPreferences.edit().putInt(UI_MODE, NIGHT_MODE).apply()
+                    binding.darkMode.text = getString(R.string.dark_mode)
+                }
+                false -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    sharedPreferences.edit().putInt(UI_MODE, DAY_MODE).apply()
+                    binding.darkMode.text = getString(R.string.day_mode)
+                }
+            }
+        }
     }
 }
